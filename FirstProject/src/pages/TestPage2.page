@@ -1,0 +1,41 @@
+<apex:page controller="TestPageClass2" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <apex:slds />
+    <div class="slds-scope">
+        <apex:outputPanel id="panel">
+        <div class="slds-grid slds-grid_align-center">
+            <div class="slds-col slds-size_1-of-8 slds-text-align_right">
+            	<label class="slds-form-element__label">A</label>
+            </div>
+            <div class="slds-col slds-form-element__control">
+            	<input type="text" id="input-id-02" class="slds-input" value="{!a}" />
+            </div>
+        </div>
+        <div class="slds-grid slds-grid_align-center">
+            <div class="slds-col slds-size_1-of-8 slds-text-align_right">
+            	<label class="slds-form-element__label" for="input-id-03">B</label>
+            </div>
+            <div class="slds-col slds-form-element__control">
+            	<input type="text" id="input-id-03" class="slds-input" value="{!b}" onblur="func()" />
+            </div>
+        </div>
+        </apex:outputPanel>
+        <apex:form >
+            <apex:actionFunction name="getvalue" action="{!test}" reRender="panel,perror">
+                <apex:param name="p1" assignTo="{!a}" value=""/>
+                <apex:param name="p2" assignTo="{!b}" value=""/>
+            </apex:actionFunction>
+        </apex:form>
+        <script>
+        function func(){
+            var x = document.getElementById('input-id-02').value;
+            var y = document.getElementById('input-id-03').value;
+            getvalue(x,y);
+            console.log(''+{!hasMessages});
+        }
+        </script>
+        <div class="slds">
+            <apex:pageMessages id="perror"/>
+        </div>
+    </div>
+
+</apex:page>

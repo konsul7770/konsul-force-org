@@ -1,0 +1,166 @@
+<apex:page id="pg" controller="ProductsController" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html id="html" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <apex:slds />
+        </head>
+        <div class="slds-scope">
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-text-heading--large slds-truncate" title="Product Name">Contact Information</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                        <div class="slds-page-header__name">
+                			<div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-text-heading--large slds-truncate" title="Product Name">Product Information</span>
+                                </h1>
+                			</div>
+                		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <body id="pgbody">
+            <div id="wrapperelement" class="slds-scope">
+                <div id="mbox" class="slds slds-align_absolute-center">
+                    <apex:pageMessages id="message"/>
+                </div>
+
+				<table class="slds-table slds-table_cell-buffer">
+					<tbody>   
+						<tr>
+                        <td data-label="Contact information" class="slds-size_1-of-2">
+                            <div class="slds-m-vertical_x-large">
+                            <apex:outputPanel id="outContactInfo">
+                                <div class="slds-grid slds-grid_align-center">
+									<div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                    <label class="slds-form-element__label">Email</label>
+                                    </div>
+                                	<div class="slds-col slds-form-element__control">
+                                		<input type="text" id="input-id-01" class="slds-input" value="{!email}" />
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-grid_align-center">
+                                	<div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                        <label class="slds-form-element__label">First Name</label>
+                                    </div>
+                                	<div class="slds-col slds-form-element__control">
+                                		<input type="text" id="input-id-02" class="slds-input" value="{!fname}" />
+                                	</div>
+                                </div>
+                                <div class="slds-grid slds-grid_align-center">
+                                	<div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                    <label class="slds-form-element__label" for="input-id-03">Last Name</label>
+                                    </div>
+                                    <div class="slds-col slds-form-element__control">
+                                		<input type="text" id="input-id-03" class="slds-input" value="{!lname}" onblur="contactfield()" />
+                                	</div>
+                                </div>
+                                
+                            </apex:outputPanel>
+                            </div>
+                            <apex:form >
+                                <apex:actionFunction name="func" action="{!getContact}" reRender="outContactInfo">
+                                    <apex:param name="email" assignTo="{!email}" value=""/>
+                                    <apex:param name="fname" assignTo="{!fname}" value=""/>
+                                    <apex:param name="lname" assignTo="{!lname}" value=""/>
+                                </apex:actionFunction>
+                                <script>
+                                function contactfield(){
+                                        var e = document.getElementById('input-id-01').value;
+                                        var f = document.getElementById('input-id-02').value;
+                                        var l = document.getElementById('input-id-03').value;
+                                        func(e,f,l);
+                                }
+                            	</script>
+                            </apex:form>
+                        </td>
+                            
+                        <td data-label="Product Information" class="slds-size_1-of-2">
+                            <div class="slds-m-vertical_x-large">
+                                <div class="slds-grid slds-grid_align-center">
+                                    <div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                       <label class="slds-form-element__label">Product Name</label> 
+                                    </div>
+                                	<div class="slds-col slds-form-element__control">
+                                		<input type="text" id="input-id-04" class="slds-input" value="{!Product.Name}" disabled="true"/>
+                                	</div>
+                                </div>
+                                <div class="slds-grid slds-grid_align-center">
+                                	<div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                        <label class="slds-form-element__label">Cost</label>
+                                    </div>
+                                	<div class="slds-col slds-form-element__control">
+                                		<input type="text" id="input-id-05" class="slds-input" value="{!Product.Unit_price__c}" disabled="true"/>
+                                	</div>
+                                </div>
+                                <apex:outputPanel id="totalamount">
+                                <div class="slds-grid slds-grid_align-center">
+                                	<div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                        <label class="slds-form-element__label">Unit Count</label>
+                                    </div>
+                                	<div class="slds-col slds-form-element__control">
+                                		<input type="text" id="input-id-06" class="slds-input" onblur="valuecalculation()" />
+                                	</div>
+                                </div>
+                                <div class="slds-grid slds-grid_align-center">
+                                	<div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                        <label class="slds-form-element__label">Total Cost</label>
+                                    </div>
+                                	<div class="slds-col slds-form-element__control">
+                                		<input type="text" id="input-id-07" class="slds-input" disabled="true"/>
+                                	</div>
+                                </div>
+                                </apex:outputPanel>
+                            </div>
+                            
+                            <script>
+                            	function valuecalculation(){
+                                    var x = document.getElementById('input-id-06').value;
+                                    var y = {!product.unit_price__c};
+                                    document.getElementById('input-id-07').value = (x*y).toFixed(2);
+                                }
+                            </script>
+                        </td>
+                      </tr>
+                	</tbody>
+                </table>            
+            </div>
+        </body>
+        <footer role="contentinfo"  class="slds-p-around_large">
+            <div class="slds-scope">
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                        <button type="button" class="slds-button slds-button_neutral" onclick="toShopping()">To Shopping</button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                        <button type="button" id="buybtn" class="slds-button slds-button_brand" onclick="updateOperation()">Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <apex:form ><apex:actionFunction name="toShopping" action="{!toShopping}" reRender="none"></apex:actionFunction></apex:form>
+            <apex:form >
+                <apex:actionFunction name="save" action="{!Save}" reRender="message,rrr">
+                    <apex:param name="p" assignTo="{!amount}" value=""/>
+                </apex:actionFunction>
+                <script>
+            	function updateOperation(){
+                    var x = document.getElementById('input-id-06').value;
+                    save(x);
+                }
+            	</script>
+            </apex:form>
+
+        </footer>
+    </html>
+</apex:page>

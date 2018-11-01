@@ -1,0 +1,65 @@
+<apex:page controller="ProductsController"  showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html>
+        <head>
+            <apex:slds />
+        </head>
+        <div class="slds-scope">
+            <div class="slds-page-header slds-text-align_center">
+                <div class="slds-page-header__name">
+                	<div class="slds-page-header__name-title">
+                        <h1>
+                        	<span class="slds-page-header__title slds-text-heading--large slds-truncate" title="Product Name">{!Product.Name}</span>
+                        </h1>
+                	</div>
+                </div>               			              	
+            </div>
+        </div>
+        <body>
+            <div class="slds-scope">
+                <table class="slds-table slds-table_cell-buffer">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <td class="slds-size_1-of-3">
+                                <div class="slds-image">
+                                    <img src="{!Product.image_url__c}"/>
+                                </div>
+                            </td>
+                            <td  class="slds-size_2-of-3" style="word-wrap: break-word;">
+                                <table class="slds-table">
+                                    <tbody>
+                                        <tr><td class="slds-text-align_left">Amount:<br/>{!Product.Units_Available__c}</td></tr>
+                                        <tr><td class="slds-text-align_left">Price:<br/>{!Product.Unit_Price__c}$</td></tr>
+                                        <tr><td class="slds-text-align_left">Description:</td></tr>
+                                        <tr><td class="slds-text-align_left slds-cell-wrap" style="word-wrap: break-word;">{!Product.Product_Description__c}</td></tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>  
+        </body>
+        <footer>
+            <div class="slds-scope">
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                        <button type="button" class="slds-button slds-button_neutral" onclick="toShopping()">To Shopping</button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                        <button type="button" id="buybtn" class="slds-button slds-button_brand" onclick="toBuying('{!product.id}')">Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <apex:form >
+                <apex:actionFunction name="toShopping" action="{!toShopping}" reRender="none">
+                </apex:actionFunction>
+                <apex:actionFunction name="toBuying" action="{!toBuying}" reRender="none">
+                     <apex:param name="p1" value="" assignTo="{!pid}" />
+                </apex:actionFunction>
+            </apex:form>
+        </footer>
+    </html>
+</apex:page>

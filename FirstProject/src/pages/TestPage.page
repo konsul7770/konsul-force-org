@@ -1,0 +1,19 @@
+<apex:page controller="TestPageController">   
+            <apex:form >   
+            <apex:pageBlock >
+				<apex:pageBlockSection >
+                <apex:outputPanel id="panel">
+                    <apex:inputText id="a" value="{!a}"/>
+                    <apex:inputText id="b" value="{!b}" onblur="func1()"/>
+                 </apex:outputPanel>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+                <apex:actionFunction name="func1" reRender="panel" oncomplete="func('{!a}','{!b}')"></apex:actionFunction>
+                <apex:actionFunction name="func" action="{!getValue}" reRender="panel,errormes">
+                    <apex:param name="p1" assignTo="{!a}" value=""/>
+                    <apex:param name="p2" assignTo="{!b}" value=""/>
+                </apex:actionFunction>
+            </apex:form>
+            <apex:pageMessages id="errormes"/>
+
+</apex:page>

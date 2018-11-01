@@ -1,0 +1,64 @@
+<apex:page controller="ProductsController" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html>
+        <head>
+            <apex:slds />
+        </head>
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                  <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate"  title="Product List">Products List</h1>
+                </div>
+            </div>
+    	</div>
+        <body>
+            <div class='slds-scope'>
+                
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr>
+                        <th class="slds-text-title_caps" scope="col" colspan="2">
+                        	<div class="slds-truncate " title="Product Name">Product Name</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                        	<div class="slds-truncate" title="Product Description">Product Description</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col" colspan="2">
+                        	<div class="slds-truncate" title="Cost">Cost</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat value="{!ProductList}" var="plist">
+                        <tr>
+                        <td data-label="Image">
+                            <div class="slds-image slds-size_x-small"><img src="{!plist.Image_Url__c}"/></div>
+                        </td>
+                        <td data-label="Product Name">
+                            <a class="slds-text-link slds-align_absolute-center" title="Name" href="productDetail?id={!plist.ID}" target="_blank">{!plist.Name}</a>
+                        </td>
+                        <td data-label="Description" class="slds-cell-wrap" style="word-wrap: break-word;">
+                                <p title="Description">{!IF(LEN(plist.product_description__c)>100,
+                                    LEFT(plist.product_description__c,100)&'.. ',
+                                    plist.product_description__c)}
+                                    <a class="slds-text-link" title="Detail" href="productDetail?id={!plist.ID}" target="_blank" style="{!IF(LEN(plist.product_description__c)>100,'','display: none;')}">more</a>
+                            	</p>
+                        </td>
+                        <td data-label="Cost">
+                        	<div class="slds-truncate" title="cost">{!plist.Unit_Price__c}$</div>
+                        </td>
+                        <td data-label="Buy">
+                        	<button class="slds-button slds-button_brand" onclick="toPage('{!plist.Id}')">Buy</button>
+                        </td>
+                        </tr>
+                    </apex:repeat>
+                    <apex:form >
+                        <apex:actionFunction name="toPage" action="{!toBuying}" reRender="none">
+                            <apex:param name="param1" value="" assignTo="{!pid}" />
+                        </apex:actionFunction>
+                    </apex:form>
+                </tbody>
+                </table>
+            </div>
+        </body>
+    </html>
+</apex:page>
